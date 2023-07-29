@@ -1,0 +1,198 @@
+<배경>
+심리학 테스트의 범주가 넓어짐에 따라 해당 영역의 데이터 분석 방법 탐구
+국가 선거 투표자/미투표자의 심리학적 성향을 분석
+목적: 마키아벨리즘 테스트를 활용한 심리학 테스트 분석 알고리즘 개발
+
+>>>마키아벨리즘이란?
+마키아벨리즘이란 개인적 욕구 충족을 위해 남을 속이거나 조종하려는 욕구
+ex: 투표를 받기 위해 남을 속임
+
+<데이터 변수 설명>
+<인덱스>
+index
+
+<마키아벨리즘 설문 답변 내용> - 총 20개 - 1(강한 부정) ~ 5(강한 긍정)
+Q_A(a~t)
+QbA: The biggest difference between most criminals and other people is that the criminals are stupid enough to get caught.
+QcA: Anyone who completely trusts anyone else is asking for trouble.
+QeA: P.T. Barnum was wrong when he said that there's a sucker born every minute.
+QfA: There is no excuse for lying to someone else.
+QhA: Most people forget more easily the death of their parents than the loss of their property.
+QjA: It is safest to assume that all people have a vicious streak and it will come out when they are given a chance.
+QkA: All in all, it is better to be humble and honest than to be important and dishonest.
+QmA: It is hard to get ahead without cutting corners here and there.
+QoA: The best way to handle people is to tell them what they want to hear.
+QqA: Most people are basically good and kind.
+QrA: One should take action only when sure it is morally right.
+QsA: It is wise to flatter important people.
+
+비식별화를 위해 일부 질문은 Secret 처리
+QaA: Secret
+QdA: Secret
+QgA: Secret
+QiA: Secret
+QlA: Secret
+QnA: Secret
+QpA: Secret
+QtA: Secret
+
+<마키아벨리즘 설문 답변까지 걸리는 시간> - 총 20개
+Q_E(a~t)
+
+<설문자 개인정보> - 총 10개
+age_group : 연령
+
+education : 교육 수준
+1=Less than high school, 2=High school, 3=University degree, 4=Graduate degree, 0=무응답
+
+engnat : 모국어가 영어
+1=Yes, 2=No, 0=무응답
+
+familysize : 형제자매 수
+
+gender : 성별
+Male, Female
+
+hand : 필기하는 손
+1=Right, 2=Left, 3=Both, 0=무응답
+
+married : 혼인 상태
+1=Never married, 2=Currently married, 3=Previously married, 0=Other
+
+race : 인종
+Asian, Arab, Black, Indigenous Australian, Native American, White, Other
+
+religion : 종교
+Agnostic, Atheist, Buddhist, Christian_Catholic, Christian_Mormon, Christian_Protestant, Christian_Other, Hindu, Jewish, Muslim, Sikh, Other
+
+urban : 유년기의 거주 구역
+1=Rural (country side), 2=Suburban, 3=Urban (town, city), 0=무응답
+
+<설문자 성격 설문 답변 내용> - 총 10개 - 01(강한 긍정) ~ 07(강한 부정)
+tp__(01~07) : items were rated "I see myself as:" _____ such that
+tp01 : Extraverted, enthusiastic.
+tp02 : Critical, quarrelsome.
+tp03 : Dependable, self-disciplined.
+tp04 : Anxious, easily upset.
+tp05 : Open to new experiences, complex.
+tp06 : Reserved, quiet.
+tp07 : Sympathetic, warm.
+tp08 : Disorganized, careless.
+tp09 : Calm, emotionally stable.
+tp10 : Conventional, uncreative.
+
+<단어 인지 여부> - 총 16개
+wr_(01~13) : 실존하는 해당 단어의 정의을 앎
+1=Yes, 0=No
+wf_(01~03) : 허구인 단어의 정의를 앎
+1=Yes, 0=No
+
+<타겟>
+voted (타겟): 지난 해 국가 선거 투표 여부
+1=Yes, 2=No
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+>마키아벨리즘 테스트 질문 중 Secret 값을 처리하기 위해 각 문항들간의 상관관계 분석
+
+테스트의 모든 질문이 마키아벨리즘과 관련이 있음.
+부호 같은 경우 +이면 답변값이 높을수록 마키아벨리즘 성향이 높은 것이고 -이면 답변값이 낮을수록 마키아벨리즘 성향이 높다고 함
+또한, 마키아벨리즘 점수는 적절한 항목을 reverse한 후 20개 문항의 평균으로 계산한다고 함
+
+만약 마키아벨리즘 성향이 높은 사람이 있다면 +부호인 문항들에서는 높은 값을 내놓았을 것이고 -부호인 문항들에서는 낮은 값을 내놓았을 것임
+그러므로 다른 부호를 가진 두 문항을 비교하면 서로 음의 상관관계를 가질 것이고, 반대로 같은 부호를 가지고 있는 두 문항을 비교하면 서로 양의 상관관계를 가질 것임
+
+음의 상관관계에서 양의 상관관계로 바꾸는 이유:
+변수의 해석 용이성: 일부 상황에서 음의 상관관계는 해석하기 어려울 수 있습니다. 
+변수들 간의 양의 상관관계는 두 변수가 함께 증가하는 경향이 있으므로, 두 변수 간의 관계를 보다 직관적으로 이해할 수 있습니다.
+> 6에서 뺌으로써 1~5의 범위를 갖게 만들어 결과적으로 양의 상관관계로 변환
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+<목표설정>
+>데이터 불러오기
+>전체적 데이터 형태 및 전처리가 필요한 특성 확인
+>데이터 전처리
+>모델 선택 및 훈련
+>결과 예측
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+<코드 설명>
+
+<마키아벨리즘 설문 답변 내용> - 총 20개 - 1(강한 부정) ~ 5(강한 긍정)
+Q_A(a~t)
+QbA(V+: The biggest difference between most criminals and other people is that the criminals are stupid enough to get caught.
+QcA(T+: Anyone who completely trusts anyone else is asking for trouble.
+QeA(V-: P.T. Barnum was wrong when he said that there's a sucker born every minute.
+QfA(T-: There is no excuse for lying to someone else.
+QhA(V+: Most people forget more easily the death of their parents than the loss of their property.
+QjA(V+: It is safest to assume that all people have a vicious streak and it will come out when they are given a chance.
+QkA(M-: All in all, it is better to be humble and honest than to be important and dishonest.
+QmA(V+: It is hard to get ahead without cutting corners here and there.
+QoA(T+: The best way to handle people is to tell them what they want to hear.
+QqA(V-: Most people are basically good and kind.
+QrA(T-: One should take action only when sure it is morally right.
+QsA(T+: It is wise to flatter important people.
+
+>스코어 계산 게시물에서 위 식별된 질문에 해당하는 부호를 매치한 후 남은 문항의 부호
+2. Most people who get ahead in the world lead clean moral lives. (V-)
+5. Generally speaking, people won't work hard unless they're forced to do so. (V+)
+8. People suffering from incurable diseases should have the choice of being put painlessly to death. (M+)
+9. Most people are brave. (V-)
+12. Honesty is the best policy in all cases. (T-)	
+15. When you ask someone to do something for you, it is best to give the real reasons for wanting it rather than giving
+reasons which might carry more weight. (T-)
+16. It is possible to be good in all respects. (T-)
+18. Never tell anyone the real reason you did something unless it is useful to do so. (T+)
+
+<인코딩> - 데이터 정제
+Mean 인코딩
+장점: 범주형 데이터를 수치형으로 변환함. 범주의 개수가 많을 때도 효과적. 타겟 변수의 평균 값으로 인코딩
+단점: 특정 범주에 속하는 샘플이 적을 경우 해당 범주의 평균값이 높거나 낮아져 과적합 발생 가능.(이를 방지하기 위해 smoothing 기법 사용)
+무응답 데이터도 정제: education(중앙값으로), engnat(최빈값으로), hand(최빈값으로), married(최빈값으로), urban(중앙값으로)
+hand, engnat 등을 지우지 않고 값만 교체한 이유: 필요 없어보인다고 함부로 지우면 안될 것 같아서
+
+<이전 모델과 비교>
+>>선형회귀 보다 랜덤포레스트 회귀 알고리즘 모델이 성능이 더 좋았던 이유
+1. 랜덤 포레스트는 다중 특성을 다루는 데 강점이 있어서, 
+특성들 간의 다양한 조합으로 예측을 수행하는 데 유리했기에 그런 것 같습니다.
+
+2. 랜덤 포레스트는 여러 개의 의사결정 트리를 결합하여 구성되기 때문에 비선형적인 관계를 모델링하는 데 강점을 가집니다.
+해당 대회 문제 관련된 데이터는 일반적으로 복잡하고 비선형적인 패턴이 존재할 수 있으며, 
+랜덤 포레스트는 이러한 비선형성을 더 잘 잡아낸 것 같습니다.
+
+>> 랜덤포레스트 회귀 알고리즘 보다 그레디언트 부스팅 회귀 알고리즘 모델이 성능이 더 좋은 이유
+1. 그레디언트 부스팅은 앙상블을 통해 결합하면 강력한 모델이 되는 여러 모델을 순차적으로 학습하여 모델을 형성하는데, 
+이렇게 앙상블 방법을 활용하는 그레디언트 부스팅은 더 나은 모델을 만들 수 있었기에 그런 것 같습니다.
+하지만, 그레디언트 부스팅은 오차를 줄여가는 방식으로 트리를 순서대로 추가하기에 랜덤으로 노드를 분할하는 랜덤 포레스트 모델에 비해 훈련 속도가 느렸습니다.
+
+>> 최종적으로 히스트그레디언트 부스팅 모델은
+정형데이터를 다루는 머신러닝 알고리즘 중에 가장 높은 인기를 가지고 있는 알고리즘 모델이기에 최종적으로 사용하였습니다.
+노드를 분할할 때 최적의 분할을 매우 빠르게 찾을 수 있는 장점이 있기에 그레디언트 부스팅보다 훈련 속도가 비교적 빨랐습니다.
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+<알게 된 점>
+우선 모델 학습에 도움을 줄 수 있는 관련 데이터를 수집하는 것이 필요하다는 것을 느낌
+그리고 모델 학습에 도움이 될 수 있도록 특성을 추가하며 다양한 전처리 과정을 진행하는 것의 중요성을 깨달음
+뿐만아니라, 모델을 바꾸어 가며 각 모델이 지닌 하이퍼파라미터 값도 수정해 보는 것도 중요하며 
+위와 같은 과정을 진행하며 모델 성능을 향상시킬 수 있는 방안을 꾸준히 모색해야 한다는 것을 알게 됨
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
